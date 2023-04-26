@@ -7,6 +7,7 @@
 
 void UOdeToDesignInstance::Init()
 {
+	Super::Init();
 	if (UOdeToDesignSave* LoadedGame = Cast<UOdeToDesignSave>(UGameplayStatics::LoadGameFromSlot(UTF8_TO_TCHAR("General"), 0)))
 	{
 		SaveFile = LoadedGame;
@@ -18,6 +19,7 @@ void UOdeToDesignInstance::Init()
 }
 void UOdeToDesignInstance::Shutdown()
 {
+	Super::Shutdown();
 	UGameplayStatics::SaveGameToSlot(SaveFile, UTF8_TO_TCHAR("General"), 0);
 }
 

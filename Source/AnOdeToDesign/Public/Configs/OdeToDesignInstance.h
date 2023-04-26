@@ -20,9 +20,11 @@ public:
 	virtual void Init() override;
 	virtual void Shutdown() override;
 
+	UFUNCTION(BlueprintCallable)
 	void SaveHighScore(float InScore);
 
 
 private:
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UOdeToDesignSave* SaveFile;
 };

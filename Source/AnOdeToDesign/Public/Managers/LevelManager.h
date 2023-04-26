@@ -27,8 +27,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
-	void OnDestroy(UObject* InObject);
+	UFUNCTION(BlueprintCallable)
+	virtual void OnDestroy(UObject* InObject) override;
 
 	UFUNCTION(BlueprintCallable)
 	void ReUse(UStaticMeshComponent* InComp);

@@ -60,3 +60,11 @@ void ALevelManager::ReUse(UStaticMeshComponent* InComp)
 	InComp->SetRelativeLocation(FVector::Zero(), true);
 }
 
+void ALevelManager::OnDestroy(UObject* InObject)
+{
+	if (UStaticMeshComponent* _Mesh = Cast<UStaticMeshComponent>(InObject))
+	{
+		ReUse(_Mesh);
+	}
+}
+

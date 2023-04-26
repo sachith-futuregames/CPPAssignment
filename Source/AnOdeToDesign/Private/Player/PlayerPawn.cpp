@@ -9,7 +9,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "Components/CapsuleComponent.h"
+#include "Components/BoxComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 
 // Sets default values
@@ -23,9 +23,10 @@ APlayerPawn::APlayerPawn()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
-	Collider = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Collider"));
-	RootComponent = Collider;
+	RootComp = CreateDefaultSubobject<USceneComponent>(TEXT("Collider"));
+	RootComponent = RootComp;
 
+	//Camera Setup
 	CameraSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Camera Spring Arm"));
 	CameraSpringArm->SetupAttachment(RootComponent);
 	CameraSpringArm->TargetArmLength = 300.f;
@@ -34,12 +35,19 @@ APlayerPawn::APlayerPawn()
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Player Camera"));
 	PlayerCamera->SetupAttachment(CameraSpringArm, USpringArmComponent::SocketName);
 	PlayerCamera->bUsePawnControlRotation = false;
-
+	
+	//Movement Setup
 	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("Movement Component"));
 
-	VehicleMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("VehicleMesh"));
-	VehicleMesh->SetupAttachment(RootComponent);
+	//Vehicle Setup
+	VehicleTrigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Vehicle Trigger"));
+	VehicleTrigger->SetGenerateOverlapEvents(true);
+	VehicleTrigger->SetupAttachment(RootComponent);
 
+	VehicleMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("VehicleMesh"));
+	VehicleMesh->SetupAttachment(VehicleTrigger);
+
+	Lives = 3;
 }
 
 // Called when the game starts or when spawned
@@ -78,11 +86,19 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 void APlayerPawn::Move(const FInputActionValue& InputVal)
 {
 	FVector2D MovementVector = InputVal.Get<FVector2D>();
-	UE_LOG(LogTemp, Warning, TEXT("Move"));
-	AddMovementInput(FVector(0, MovementVector.X, MovementVector.Y), 200.f);
+	AddMovementInput(FVector(0, MovementVector.X, MovementVector.Y), MoveSpeed);
 }
 
 void APlayerPawn::PowerUp(const FInputActionValue& InputVal)
 {
 	PowerUpSlot->UsePowerUp();
+}
+
+void APlayerPawn::RegisterHit()
+{
+	--Lives;
+	if (Lives <= 0)
+	{
+		EndGame();
+	}
 }

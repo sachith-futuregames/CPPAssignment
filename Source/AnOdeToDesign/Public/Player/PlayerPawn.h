@@ -13,14 +13,27 @@ class UInputMappingContext;
 class UInputAction;
 class UFloatingPawnMovement;
 class USkeletalMeshComponent;
-class UCapsuleComponent;
+class USceneComponent;
+class UBoxComponent;
 struct FInputActionValue;
 //
 UCLASS(config = Game)
 class ANODETODESIGN_API APlayerPawn : public APawn
 {
 	GENERATED_BODY()
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	USceneComponent* RootComp;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MoveSpeed;
+
+	/*Core Utils*/
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	void EndGame();
+
+	UFUNCTION(BlueprintCallable)
+	void RegisterHit();
 private:
 	/*Camera Components*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -40,9 +53,11 @@ private:
 	UInputAction* PowerUpAction;
 
 	/*Movement Component*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadonly, meta = (AllowPrivateAccess = "true"))
-	UCapsuleComponent* Collider;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	FVector2D BoundaryValues;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UBoxComponent* VehicleTrigger;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, meta = (AllowPrivateAccess = "true"))
 	UFloatingPawnMovement* MovementComponent;
@@ -77,4 +92,6 @@ private:
 	UFUNCTION()
 	void PowerUp(const FInputActionValue& InputVal);
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadonly, meta = (AllowPrivateAccess = "true"))
+	int Lives;
 };

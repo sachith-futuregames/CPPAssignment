@@ -12,3 +12,13 @@ The Game Currently Features the following capabilities.
 2. 3 Lives are provided. 
 3. A small safe time is provided when you colllide with an Obstacle
 4. Save and Load the High Scores Which are Showcased by the Start Screen
+
+Known Issues:
+1. Place Holder Aasets Used.
+2. Limited Obstacles
+3. Movement limitation of player is yet to be introduced
+4. Some Code needs to be moved from BP to CPP
+
+Missing Features
+1. Local Coop
+2. Chance of obstacle disappearing

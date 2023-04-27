@@ -5,15 +5,9 @@
 
 void UOdeToDesignSave::SaveIfElegible(float NewScore)
 {
-	if (HighScores.Num() == 0)
-		HighScores.Add(NewScore);
-	for (int i = 0; i < HighScores.Num(); ++i)
-	{
-		if (NewScore > HighScores[i])
-		{
-			HighScores.Insert(NewScore, i);
-		}
-	}
+	HighScores.Add(NewScore);
+	HighScores.Sort([](const float& a, const float& b) { return a > b; });
+	
 
 	while (HighScores.Num() > 10)
 	{

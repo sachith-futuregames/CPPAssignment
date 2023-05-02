@@ -8,7 +8,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "Components/SkeletalMeshComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 
@@ -44,7 +44,7 @@ APlayerPawn::APlayerPawn()
 	VehicleTrigger->SetGenerateOverlapEvents(true);
 	VehicleTrigger->SetupAttachment(RootComponent);
 
-	VehicleMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("VehicleMesh"));
+	VehicleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VehicleMesh"));
 	VehicleMesh->SetupAttachment(VehicleTrigger);
 
 	Lives = 3;
@@ -58,6 +58,7 @@ void APlayerPawn::BeginPlay()
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* _SS = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(_PC->GetLocalPlayer()))
 		{
+			UE_LOG(LogTemp, Warning, TEXT("Added"));
 			_SS->AddMappingContext(PlayerMappingContext, 0);
 		}
 	}

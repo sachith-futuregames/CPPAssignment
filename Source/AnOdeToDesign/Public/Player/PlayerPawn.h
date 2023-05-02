@@ -12,7 +12,7 @@ class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 class UFloatingPawnMovement;
-class USkeletalMeshComponent;
+class UStaticMeshComponent;
 class USceneComponent;
 class UBoxComponent;
 struct FInputActionValue;
@@ -42,7 +42,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* PlayerCamera;
 
-	/*Input Contexts*/
+	/*Input Contexts*/ 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UInputMappingContext* PlayerMappingContext;
 
@@ -66,12 +66,15 @@ private:
 	TScriptInterface<IPowerUps> PowerUpSlot;
 
 	/*Aesthetics*/
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	USkeletalMeshComponent* VehicleMesh;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* VehicleMesh;
 
 public:
 	// Sets default values for this pawn's properties
 	APlayerPawn();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int index;
 
 protected:
 	// Called when the game starts or when spawned
@@ -82,6 +85,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
+	UFUNCTION(BlueprintCallable)
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:

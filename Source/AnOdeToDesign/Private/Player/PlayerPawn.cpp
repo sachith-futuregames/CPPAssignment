@@ -35,17 +35,22 @@ APlayerPawn::APlayerPawn()
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Player Camera"));
 	PlayerCamera->SetupAttachment(CameraSpringArm, USpringArmComponent::SocketName);
 	PlayerCamera->bUsePawnControlRotation = false;
-	
-	//Movement Setup
-	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("Movement Component"));
+
 
 	//Vehicle Setup
-	VehicleTrigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Vehicle Trigger"));
-	VehicleTrigger->SetGenerateOverlapEvents(true);
-	VehicleTrigger->SetupAttachment(RootComponent);
+	Vehicle1Trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Vehicle 1 Trigger"));
+	Vehicle1Trigger->SetGenerateOverlapEvents(true);
+	Vehicle1Trigger->SetupAttachment(RootComponent);
 
-	VehicleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VehicleMesh"));
-	VehicleMesh->SetupAttachment(VehicleTrigger);
+	Vehicle2Trigger = CreateDefaultSubobject<UBoxComponent>(TEXT("Vehicle 2 Trigger"));
+	Vehicle2Trigger->SetGenerateOverlapEvents(true);
+	Vehicle2Trigger->SetupAttachment(RootComponent);
+
+	Vehicle1Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Vehicle 1 Mesh"));
+	Vehicle1Mesh->SetupAttachment(Vehicle1Trigger);
+
+	Vehicle2Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Vehicle 2 Mesh"));
+	Vehicle2Mesh->SetupAttachment(Vehicle2Trigger);
 
 	Lives = 3;
 }
@@ -77,22 +82,22 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	if (UEnhancedInputComponent* _EIC = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		_EIC->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlayerPawn::Move);
-
-		_EIC->BindAction(PowerUpAction, ETriggerEvent::Triggered, this, &APlayerPawn::PowerUp);
+		_EIC->BindAction(MoveAction1, ETriggerEvent::Triggered, this, &APlayerPawn::MovePlayer1);
+		_EIC->BindAction(MoveAction2, ETriggerEvent::Triggered, this, &APlayerPawn::MovePlayer2);
 	}
 
 }
 
-void APlayerPawn::Move(const FInputActionValue& InputVal)
+void APlayerPawn::MovePlayer1(const FInputActionValue& InputVal)
 {
 	FVector2D MovementVector = InputVal.Get<FVector2D>();
-	AddMovementInput(FVector(0, MovementVector.X, MovementVector.Y), MoveSpeed);
+	Vehicle1Trigger->AddLocalOffset(FVector(0, MovementVector.X, MovementVector.Y), true);
 }
 
-void APlayerPawn::PowerUp(const FInputActionValue& InputVal)
+void APlayerPawn::MovePlayer2(const FInputActionValue& InputVal)
 {
-	PowerUpSlot->UsePowerUp();
+	FVector2D MovementVector = InputVal.Get<FVector2D>();
+	Vehicle2Trigger->AddLocalOffset(FVector(0, MovementVector.X, MovementVector.Y), true);
 }
 
 void APlayerPawn::RegisterHit()

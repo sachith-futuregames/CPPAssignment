@@ -47,27 +47,27 @@ private:
 	UInputMappingContext* PlayerMappingContext;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UInputAction* MoveAction;
+	UInputAction* MoveAction1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UInputAction* PowerUpAction;
+	UInputAction* MoveAction2;
 
 	/*Movement Component*/
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	FVector2D BoundaryValues;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UBoxComponent* VehicleTrigger;
+	UBoxComponent* Vehicle1Trigger;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadonly, meta = (AllowPrivateAccess = "true"))
-	UFloatingPawnMovement* MovementComponent;
-
-	/*Powerups*/
-	TScriptInterface<IPowerUps> PowerUpSlot;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UBoxComponent* Vehicle2Trigger;
 
 	/*Aesthetics*/
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	UStaticMeshComponent* VehicleMesh;
+	UStaticMeshComponent* Vehicle1Mesh;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* Vehicle2Mesh;
 
 public:
 	// Sets default values for this pawn's properties
@@ -91,10 +91,10 @@ public:
 private:
 	//Called when Move Inputs are received
 	UFUNCTION()
-	void Move(const FInputActionValue& InputVal);
-	//Called when Powerup Inputs are received
+	void MovePlayer1(const FInputActionValue& InputVal);
+
 	UFUNCTION()
-	void PowerUp(const FInputActionValue& InputVal);
+	void MovePlayer2(const FInputActionValue& InputVal);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, meta = (AllowPrivateAccess = "true"))
 	int Lives;

@@ -69,6 +69,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* Vehicle2Mesh;
 
+
+
 public:
 	// Sets default values for this pawn's properties
 	APlayerPawn();
@@ -95,6 +97,7 @@ private:
 
 	UFUNCTION()
 	void MovePlayer2(const FInputActionValue& InputVal);
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, meta = (AllowPrivateAccess = "true"))
 	int Lives;

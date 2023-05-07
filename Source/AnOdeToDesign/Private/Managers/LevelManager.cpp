@@ -13,7 +13,7 @@ ALevelManager::ALevelManager()
 	PrimaryActorTick.bCanEverTick = true;
 	SpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Root Component"));
 	RootComponent = SpawnPoint;
-	BlockCount = 15;
+	BlockCount = 20;
 	for (int i = 0; i < BlockCount; ++i)
 	{
 		Blocks.Add(CreateDefaultSubobject<UStaticMeshComponent>(*FString::Printf(TEXT("Block %i"), i)));

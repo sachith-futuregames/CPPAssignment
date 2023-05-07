@@ -10,6 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
+#include "Destroyables/Destroyable.h"
 #include "GameFramework/FloatingPawnMovement.h"
 
 // Sets default values
@@ -63,7 +64,6 @@ void APlayerPawn::BeginPlay()
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* _SS = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(_PC->GetLocalPlayer()))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Added"));
 			_SS->AddMappingContext(PlayerMappingContext, 0);
 		}
 	}
@@ -91,13 +91,19 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 void APlayerPawn::MovePlayer1(const FInputActionValue& InputVal)
 {
 	FVector2D MovementVector = InputVal.Get<FVector2D>();
-	Vehicle1Trigger->AddLocalOffset(FVector(0, MovementVector.X, MovementVector.Y), true);
+	UE_LOG(LogTemp, Warning, TEXT("Actor 1 location: %s"), *MovementVector.ToString());
+	float x = FMath::Clamp(Vehicle1Trigger->GetRelativeLocation().Y + ((MovementVector.X) * MoveSpeed * GetWorld()->GetDeltaSeconds()), -BoundaryValues.X, BoundaryValues.X);
+	float y = FMath::Clamp(Vehicle1Trigger->GetRelativeLocation().Z + ((MovementVector.Y) * MoveSpeed * GetWorld()->GetDeltaSeconds()), -BoundaryValues.Y, BoundaryValues.Y);
+	Vehicle1Trigger->SetRelativeLocation(FVector(Vehicle1Trigger->GetRelativeLocation().X, x, y), true);
 }
 
 void APlayerPawn::MovePlayer2(const FInputActionValue& InputVal)
 {
 	FVector2D MovementVector = InputVal.Get<FVector2D>();
-	Vehicle2Trigger->AddLocalOffset(FVector(0, MovementVector.X, MovementVector.Y), true);
+	UE_LOG(LogTemp, Warning, TEXT("Actor 2 location: %s"), *MovementVector.ToString());
+	float x = FMath::Clamp(Vehicle2Trigger->GetRelativeLocation().Y + ((MovementVector.X) * MoveSpeed * GetWorld()->GetDeltaSeconds()), -BoundaryValues.X, BoundaryValues.X);
+	float y = FMath::Clamp(Vehicle2Trigger->GetRelativeLocation().Z + ((MovementVector.Y) * MoveSpeed * GetWorld()->GetDeltaSeconds()), -BoundaryValues.Y, BoundaryValues.Y);
+	Vehicle2Trigger->SetRelativeLocation(FVector(Vehicle2Trigger->GetRelativeLocation().X, x, y) , true);
 }
 
 void APlayerPawn::RegisterHit()
@@ -108,3 +114,4 @@ void APlayerPawn::RegisterHit()
 		EndGame();
 	}
 }
+

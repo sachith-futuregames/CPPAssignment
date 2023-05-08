@@ -58,6 +58,7 @@ void ALevelManager::ReUse(UStaticMeshComponent* InComp)
 {
 	InComp->SetStaticMesh(BlockMeshes[FMath::RandRange(0, BlockMeshes.Num() - 1)]);
 	InComp->SetRelativeLocation(FVector::Zero(), true);
+	InComp->SetVisibility(FMath::RandRange(0.0, 10.0) < 1.0);
 }
 
 void ALevelManager::OnDestroy(UObject* InObject)

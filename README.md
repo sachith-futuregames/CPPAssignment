@@ -1,4 +1,4 @@
-# CPPAssignment Update 27-Apr-23 (Kindly Redownload the Build to Play the Updated Version)
+# CPPAssignment Update 05-May-23 (Kindly Redownload the Build to Play the Updated Version)
 
 Architecture
 1. The goal was to create a decoupled module as much as possible. The attempt is to keep most of the processing in CPP and Use Blueprints only for Data as much as possible. 

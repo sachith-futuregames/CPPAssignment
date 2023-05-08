@@ -12,13 +12,6 @@ The Game Currently Features the following capabilities.
 2. 3 Lives are provided. 
 3. A small safe time is provided when you colllide with an Obstacle
 4. Save and Load the High Scores Which are Showcased by the Start Screen
+5. Local Co-op: Due to The issue with UE 5.1 a single pawn is being used that maps the inputs to 2 different Meshes that are controlled by each player and have their own Collision boxes 
 
-Known Issues:
-1. Place Holder Aasets Used.
-2. Limited Obstacles
-3. Movement limitation of player is yet to be introduced
-4. Some Code needs to be moved from BP to CPP
 
-Missing Features
-1. Local Coop
-2. Chance of obstacle disappearing
